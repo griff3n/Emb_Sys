@@ -1,0 +1,13 @@
+Blatt_*/Protokoll/*.aux
+Blatt_*/Protokoll/*.log
+Blatt_*/Protokoll/*.out
+Blatt_*/Protokoll/Template.pdf
+Blatt_*/Protokoll/*.synctex.gz
+Blatt_*/Protokoll/*.toc
+/Protokoll/*.aux
+/Protokoll/*.log
+/Protokoll/*.out
+/Protokoll/Template.pdf
+/Protokoll/*.synctex.gz
+/Protokoll/*.toc
+/bin/
