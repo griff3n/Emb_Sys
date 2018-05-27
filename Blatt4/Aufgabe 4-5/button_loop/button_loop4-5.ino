@@ -82,7 +82,7 @@ class TButton {
 		uint8_t m_btnState;
 };
 
-void IntHandler(void);
+extern void IntHandler(void);
 
 // global instances for led output
 TLed<LedPortOut> Led;

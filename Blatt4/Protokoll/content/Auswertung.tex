@@ -27,7 +27,7 @@ Es wurde ein Pull-Down-Widerstand verwendet (Der Widerstand ist zwischen PC4 und
 Implementieren Sie die fehlende Klasse \textit{TButton} (Konstruktor und Funktion \textit{state}).\\ \\
 Laden Sie das Programm auf das LaunchPad hoch und testen Sie es. (Tipp: Das\\
 Programm können Sie mit dem Knopf „Reset“ auf dem LaunchPad neustarten.)\\ \\
-Wie verhält sich ein Auslösen des “Not-Aus-Knopfs” hinsichtlich der Reaktionszeit?\\ \\
+Wie verhält sich ein Auslösen des $“$Not-Aus-Knopfs$”$ hinsichtlich der Reaktionszeit?\\
 \begin{lstlisting}[label =lst:bash]
 template <const uint8_t PORT_NB>
 class TButton {
@@ -36,19 +36,18 @@ class TButton {
       : m_btnState(f_btnState) {
       pinMode(PORT_NB, INPUT);
     }
-
     uint8_t state() {
       m_btnState = digitalRead(PORT_NB);
       return m_btnState;
     }
-
   private:
   uint8_t m_btnState;
 };
 \end{lstlisting}
+Der Not-Aus-Knopf reagiert nach dem er ein Paar Sekunden gedrückt wurde.
 \newpage
 \section{Aufgabe 2}
-Verbessern Sie das Programm hinsichtlich der Reaktionszeit, indem Sie Polling einsetzen.\\ \\
+Verbessern Sie das Programm hinsichtlich der Reaktionszeit, indem Sie Polling einsetzen.\\
 \begin{lstlisting}[label =lst:bash]
 unsigned long time1, time2, time;
 void setup() {
