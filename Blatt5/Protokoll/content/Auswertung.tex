@@ -1,0 +1,58 @@
+\newpage
+\section{Vorbereitung}
+Infomaterial finden Sie u.a. im Ilias:
+\begin{itemize}
+	\item ARMv7-M Architecture Reference Manual, Kapitel A4 ($"$The ARMv7-M Instruction Set$"$) und A5 ($"$Thumb Instruction Set Encoding$"$)
+	\item Cortex-M4 Devices Generic User Guide, Kapitel 3 $"$The Cortex-M4 Instruction Set$"$
+\end{itemize}
+\section{Aufgabe 1}
+Sehen Sie sich an, wofür die Optionen \textit{-O0}, \textit{-O2} und \textit{-Os} des Compilers \textit{arm-none-eabi-gcc} verwendet werden, z.B. \url{https://gcc.gnu.org/onlinedocs/gcc-6.4.0/gcc/Optimize-Options.html}.\\ \\
+\begin{itemize}
+	\item -O0: Verringert die Kompilierungszeit und macht das beim debuggen die erwarteten Ergebnisse produziert werden.
+	\item -O2: GCC führt nahezu alle unterstützen Optimierungen aus die nicht einen Speicher-Geschwindigkeit-Kompromiss eingehen. Diese Option erhöht die Kompilierungszeit und die Performance des generierten Code.
+	\item -Os: Optimiert die Code-Grö\ss{}e.
+\end{itemize}
+Setzen Sie den Pfad für ausführbare Programme auf die Tools der (TivaC-)Toolchain der Energia-Entwicklungsumgebung und öffnen Sie ein Fenster mit einer Kommandozeile. Ermitteln Sie Ihre Comiler Version (\textit{arm-none-eabi-gcc --version}). Idealerweise haben Sie die Version 6.3.1.\\ \\
+Der Pfad kann unter Systemsteuerung/System und Sicherheit/System/Erweiterte Systemeinstellungen/Erweitert/Umgebungsvariablen gesetzt werden.\\ \\
+Laden Sie die vier Dateien \textit{blink.c}, \textit{startup\_gcc.c}, \textit{EK-TM4C123GXL.ccxml} und \textit{blink.ld} aus ILIAS. Für diese Aufgabe betrachten wir hauptsächlich die Datei blink.c (s. Listig).\\ \\
+Übersetzen Sie die Dateien und bauen Sie eine ELF-Datei für das TivaC-Board mit Optimierung \textit{-O0}. Ermitteln Sie die Programmgrö\ss{}e und generieren Sie ein Disassembly. Sie können folgende Befehle in der Kommandozeile ausführen (oder sich ein Makefile schreiben). Für die folgenden Befehle ist der \textit{{PATH\_TO\_SYSTEM\_DIR}} durch den Pfad zum TivaC $"$system$"$-Ordner in ihrer Energia-Installation zu ersetzen, z.B. $"$C:\textbackslash Users\textbackslash User\textbackslash AppData\textbackslash Local\textbackslash Energia15\textbackslash packages\textbackslash energia\textbackslash hardware\textbackslash tivac\textbackslash 1.0.3\textbackslash system$"$:\\ \\
+\textit{arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -O0 -I{PATH\_TO\_SYSTEM\_DIR} -std=gnu11 -c -o blink.o blink.c}\\ \\
+\textit{arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -O0 -I{PATH\_TO\_SYSTEM\_DIR} -std=gnu11 -c -o startup\_gcc.o startup\_gcc.c}\\ \\
+\textit{arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -O0 -T blink.ld -Xlinker --gc-sections -o blink.elf blink.o startup\_gcc.o}\\ \\
+\textit{arm-none-eabi-size blink.elf}\\ \\
+\textit{arm-none-eabi-objdump -h -S blink.elf > blink0.asm}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+	breakatwhitespace=false,
+	breaklines=true,
+	commentstyle=\color{mygreen},
+	frame=single,
+	keepspaces=true,
+	keywordstyle=\color{blue},
+	language=C,
+	rulecolor=\color{black},
+	stringstyle=\color{mymauve},
+	tabsize=2
+}
+\lstinputlisting{../Quellcode/blink.c}
+\begin{center}
+	Listing der Datei blink.c
+\end{center}
+Sie können das Programm mit den folgenden Schritten auch auf das Board überspielen:\\
+\textit{DSLite load -c EK-TM4C123GXL.ccxml blink.elf}\\ \\
+Sie sollten nun die Grö\ss{}e des Programmcodes ermittelt und u.a. die Datei \textit{blink0.asm} generiert haben. In der Datei \textit{blink0.asm} finden Sie ein Disassembly des Programms \textit{blink.c}.\\ \\
+Todo: Grö\ss{}e des Programmcodes aufschreiben.\\ \\
+Gehen Sie zu der 10. Zeile nach der Zeile mit \textit{000029c <main>}: Die Zeile hat die folgende Form (erste drei Zeichen ggf. anders):\\
+\textbf{2ae:}~~ \textit{4b0d\quad \quad \quad ldr \quad r3, [pc, \#52]\quad \quad ; (2e4 <main+0x48>)}\\ \\
+Erklären Sie, was Ihnen das Disassembly in den Spalten zeigt. Erklären Sie weiterhin genau die Anweisungen der Assemblerbefehle dieser und der folgenden 18 Zeilen bis zur Zeile mit\\
+\textbf{2da:}~~ \textit{e7ee\quad \quad \quad b.n\quad 2ba <main+0x1e>\quad \quad }\\ \\
+Todo: Spalten und Assemblerbefehle erklären.\\ \\
+\section{Aufgabe 2}
+Führen Sie nun die oben dargestellten Schritte mit der Option \textit{-O2} aus. Generieren Sie ein weiteres Disassembly in einer Datei \textit{blink2.asm}.\\ \\
+Vergleichen Sie die beiden Grö\ss{}en der Programmcodes, die mit den unterschiedlichen Optimierungsparametern generiert wurden. Vergleichn Sie auch den Inhalt der Dateien \textit{blink0.asm} und \textit{blink2.asm}. Welche wesentliche Änderung hat der Compiler am auszufürenden Binärcode (siehe die Disassemblies \textit{.asm}) durchgeführt?\\ \\
+Todo: Aufgabe 2 lösen.\\ \\
+\section{Aufgabe 3}
+Ändern Sie nun das Programm, indem Sie das Keyword \textit{volatile} im Quellcode \textit{blink.c} löschen. Führen Sie die oben beschriebenen Schritte mit der Option \textit{-O2} nochmals durch und sehen Sie Sich das neue Disassembly an.\\ \\
+Was und warum hat der Compiler nun etwas Anderes generiert? Wie wirkt sich dies auf die Programmausführung auf dem Board aus?\\ \\
+Todo: Aufgabe 3 lösen.\\
