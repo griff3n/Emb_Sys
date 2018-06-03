@@ -42,12 +42,17 @@ Laden Sie die vier Dateien \textit{blink.c}, \textit{startup\_gcc.c}, \textit{EK
 Sie können das Programm mit den folgenden Schritten auch auf das Board überspielen:\\
 \textit{DSLite load -c EK-TM4C123GXL.ccxml blink.elf}\\ \\
 Sie sollten nun die Grö\ss{}e des Programmcodes ermittelt und u.a. die Datei \textit{blink0.asm} generiert haben. In der Datei \textit{blink0.asm} finden Sie ein Disassembly des Programms \textit{blink.c}.\\ \\
-Todo: Grö\ss{}e des Programmcodes aufschreiben.\\ \\
+Die Grö\ss{}e des Programmcodes beträgt 1148 bytes.\\ \\
 Gehen Sie zu der 10. Zeile nach der Zeile mit \textit{000029c <main>}: Die Zeile hat die folgende Form (erste drei Zeichen ggf. anders):\\
 \textbf{2ae:}~~ \textit{4b0d\quad \quad \quad ldr \quad r3, [pc, \#52]\quad \quad ; (2e4 <main+0x48>)}\\ \\
 Erklären Sie, was Ihnen das Disassembly in den Spalten zeigt. Erklären Sie weiterhin genau die Anweisungen der Assemblerbefehle dieser und der folgenden 18 Zeilen bis zur Zeile mit\\
 \textbf{2da:}~~ \textit{e7ee\quad \quad \quad b.n\quad 2ba <main+0x1e>\quad \quad }\\ \\
-Todo: Spalten und Assemblerbefehle erklären.\\ \\
+In der ersten Spalte steht die Adresse des Assemblerbefehls.\\
+In der zweiten Spalte steht der Assemblerbefehl in Hexadezimale Darstellung.\\
+In der dritten Spalte steht der Assemblerbefehl in $"$Menschen Lesbaren Darstellung$"$ z. B. add.\\
+In der vierten Spalte stehen die Operanden die zu dem Assemblerbefehl (Spalte 3) gehören.\\
+In der fünften Spalte steht ein Kommentar mit weiteren Informationen.\\
+Todo: Assemblerbefehle erklären.\\ \\
 \section{Aufgabe 2}
 Führen Sie nun die oben dargestellten Schritte mit der Option \textit{-O2} aus. Generieren Sie ein weiteres Disassembly in einer Datei \textit{blink2.asm}.\\ \\
 Vergleichen Sie die beiden Grö\ss{}en der Programmcodes, die mit den unterschiedlichen Optimierungsparametern generiert wurden. Vergleichn Sie auch den Inhalt der Dateien \textit{blink0.asm} und \textit{blink2.asm}. Welche wesentliche Änderung hat der Compiler am auszufürenden Binärcode (siehe die Disassemblies \textit{.asm}) durchgeführt?\\ \\
