@@ -102,6 +102,30 @@ Die Funktion delay() ist in der main() Funktion integriert.\\
 Es werden die Register r0-r6 verwendet (in der Main Funktion).\\
 Die Wörter werden nur einmal in der Main geladen und nur noch mithilfe von Registern geladen und gespeichert.\\
 \section{Aufgabe 3}
-Ändern Sie nun das Programm, indem Sie das Keyword \textit{volatile} im Quellcode \textit{blink.c} löschen. Führen Sie die oben beschriebenen Schritte mit der Option \textit{-O2} nochmals durch und sehen Sie Sich das neue Disassembly an.\\ \\
-Was und warum hat der Compiler nun etwas Anderes generiert? Wie wirkt sich dies auf die Programmausführung auf dem Board aus?\\ \\
+Ändern Sie nun das Programm, indem Sie das Keyword \textit{volatile} im Quellcode \textit{blink.c} löschen. Führen Sie die oben beschriebenen Schritte mit der Option \textit{-O2} nochmals durch und sehen Sie Sich das neue Disassembly an.\\ 
+
+Was und warum hat der Compiler nun etwas Anderes generiert? Wie wirkt sich dies auf die Programmausführung auf dem Board aus?\\ 
+
 Das Schlüsselwort volatile bedeutet das der Wert einer Variablen sich jederzeit ändern kann. Das hei\ss{}t das die Variable ständig überprüft werden muss.\\
+
+Der Compiler lässt durch das \"volatile\"-Keyword einige Optimierungen aus. 
+Dem Entsprechend ist der neue Code um 16 Zeilen kürzer (gemessen bis zu b.n-Zeile) und weißt die Operationen \"cmp\",\"adds\",\"bls\" und \"bhi\" nicht mehr auf. 
+Die Anzahl der genutzten Register ist gleich geblieben, lediglich die Namen haben sich geändert. \\
+
+Bei der Programmausführung auf dem Board werden allerdings erst die gravierenden Unterschiede durch die Optimierung klar. 
+Die Programmausführung \textbf{mit} dem Keyword sieht wie folgt aus:\\
+
+\begin{enumerate}
+\item Die LED des Boards ist aus
+\item Nach einem Knopfdruck beginnt die LED zu blinken
+\item Solange der Knopf gedrückt wird, ist die LED aus
+\end{enumerate}
+
+Ein Durchlauf \textbf{ohne} das Keyword sieht allerdings so aus:\\
+\begin{enumerate}
+\item Die LED des Boards ist an
+\item Solange der Knopf gedrückt wird, ist die LED aus
+\item Nach einem Knopfdruck leuchtet die LED wieder permanent
+\end{enumerate}
+
+Es ist also deutlich, dass in diesem Fall das \"volatile\"-Keyword benötigt wird, damit das Programm funktioniert und nicht elementare Bestandteile wegoptimiert werden.
