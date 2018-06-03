@@ -95,8 +95,13 @@ $"$b.n 2ba <main +0x1e>$"$ springt zur Adresse 0x2ba (While true schleife in mai
 \section{Aufgabe 2}
 Führen Sie nun die oben dargestellten Schritte mit der Option \textit{-O2} aus. Generieren Sie ein weiteres Disassembly in einer Datei \textit{blink2.asm}.\\ \\
 Vergleichen Sie die beiden Grö\ss{}en der Programmcodes, die mit den unterschiedlichen Optimierungsparametern generiert wurden. Vergleichn Sie auch den Inhalt der Dateien \textit{blink0.asm} und \textit{blink2.asm}. Welche wesentliche Änderung hat der Compiler am auszufürenden Binärcode (siehe die Disassemblies \textit{.asm}) durchgeführt?\\ \\
-Todo: Aufgabe 2 lösen.\\ \\
+Die Grö\ss{}e des Programmcodes (blink0.asm) beträgt 1148 bytes.\\
+Die Grö\ss{}e des Programmcodes (blink2.asm) beträgt 1104 bytes.\\
+Der Programmcode von blink2.asm ist 44 bytes kleiner.\\
+Die Funktion delay() ist in der main() Funktion integriert.\\
+Es werden die Register r0-r6 verwendet (in der Main Funktion).\\
+Die Wörter werden nur einmal in der Main geladen und nur noch mithilfe von Registern geladen und gespeichert.\\
 \section{Aufgabe 3}
 Ändern Sie nun das Programm, indem Sie das Keyword \textit{volatile} im Quellcode \textit{blink.c} löschen. Führen Sie die oben beschriebenen Schritte mit der Option \textit{-O2} nochmals durch und sehen Sie Sich das neue Disassembly an.\\ \\
 Was und warum hat der Compiler nun etwas Anderes generiert? Wie wirkt sich dies auf die Programmausführung auf dem Board aus?\\ \\
-Todo: Aufgabe 3 lösen.\\
+Das Schlüsselwort volatile bedeutet das der Wert einer Variablen sich jederzeit ändern kann. Das hei\ss{}t das die Variable ständig überprüft werden muss.\\
