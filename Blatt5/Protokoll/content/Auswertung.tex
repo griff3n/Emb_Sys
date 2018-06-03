@@ -52,7 +52,46 @@ In der zweiten Spalte steht der Assemblerbefehl in Hexadezimale Darstellung.\\
 In der dritten Spalte steht der Assemblerbefehl in $"$Menschen Lesbaren Darstellung$"$ z. B. add.\\
 In der vierten Spalte stehen die Operanden die zu dem Assemblerbefehl (Spalte 3) gehören.\\
 In der fünften Spalte steht ein Kommentar mit weiteren Informationen.\\
-Todo: Assemblerbefehle erklären.\\ \\
+2ae: ldr r3, [pc, \#52] ; (2e4 <main+0x48>)\\
+Der pc-Register zeigt auf die Adresse des nächsten Befehls also 0x2b0.\\
+$"$ldr r3, [pc, \#52]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#52 = 0x2b0 + 0x34 = 0x2e4) in den Register r3. Das Wort 40025400 wird in den Register r3 geschrieben.\\
+2b0: movs r2, \#8\\
+$"$movs r2, \#8$"$ schreibt den Wert \#8 in den Register r2.\\
+2b2: str r2, [r3, \#0]\\
+$"$str r2, [r3, \#0]$"$ schreibt den Inhalt des Registers r2 in die Angegebene Adresse (Adr. im Reg. r3 + \#0 = 0x40025400 + 0x0 = 0x40025400). Das hei\ss{}t der Wert \#8 aus Register r2 wird in die Adresse 0x40025400 geschrieben.\\
+2b4: ldr r3, [pc, \#48] ; (2e8 <main+0x4c>)\\
+$"$ldr r3, [pc, \#48]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#48 = 0x2b8 + 0x30 = 0x2e8) in den Register r3. Das Wort 4002551c wird in den Register r3 geschrieben.\\
+2b6: movs r2, \#8\\
+$"$movs r2, \#8$"$ schreibt den Wert \#8 in den Register r2.\\
+2b8: str r2, [r3, \#0]\\
+$"$str r2, [r3, \#0]$"$ schreibt den Inhalt des Registers r2 in die Angegebene Adresse (Adr. im Reg. r3 + \#0 = 0x4002551c + 0x0 = 0x4002551c). Das hei\ss{}t der Wert \#8 aus Register r2 wird in die Adresse 0x4002551c geschrieben.\\
+2ba: ldr r2 [pc, \#48] ; (2ec <main+0x50>)\\
+$"$ldr r2 [pc, \#48]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#48 = 0x2bc + 0x30 = 0x2ec) in den Register r2. Das Wort 400253fc wird in den Register r2 geschrieben.\\
+2bc: ldr r3 [pc, \#44] ; (2ec <main+0x50>)\\
+$"$ldr r3 [pc, \#44]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#44 = 0x2c0 + 0x2c = 0x2ec) in den Register r3. Das Wort 400253fc wird in den Register r3 geschrieben.\\
+2be: ldr r3 [r3, \#0]\\
+$"$ldr r3 [r3, \#0]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. r3 + \#0 = 0x400253fc + 0x0 = 0x400253fc) in den Register r3.\\
+2c0: orr.w r3, r3, \#8\\
+$"$orr.w r3, r3, \#8$"$ schreibt das Ergebnis einer bitweisen ODER-Operation mit den Operatoren r3 und \#8 in Register r3 (r3 = r3 | \#8).\\
+2c4: str r3, [r2, \#0]\\
+$"$str r3, [r2, \#0]$"$ schreibt den Inhalt des Registers r3 in die Angegebene Adresse (Adr. im Reg. r2 + \#0 = 0x400253fc + 0x0 = 0x400253fc). Das hei\ss{}t der Wert aus Register r3 wird in die Adresse 0x400253fc geschrieben.\\
+2c6: bl 26c <delay>\\
+$"$bl 26c <delay>$"$ springt zur Adresse 0x26c (Funktion delay).\\
+2ca: ldr r2 [pc, \#32] ; (2ec <main+0x50>)\\
+$"$ldr r2 [pc, \#32]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#32 = 0x2cc + 0x20 = 0x2ec) in den Register r2. Das Wort 400253fc wird in den Register r2 geschrieben.\\
+2cc: ldr r3 [pc, \#28] ; (2ec <main+0x50>)\\
+$"$ldr r3 [pc, \#28]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#28 = 0x2d0 + 0x1c = 0x2ec) in den Register r3. Das Wort 400253fc wird in den Register r3 geschrieben.\\
+2ce: ldr r3 [r3, \#0]\\
+$"$ldr r3 [r3, \#0]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. r3 + \#0 = 0x400253fc + 0x0 = 0x400253fc) in den Register r3.\\
+2d0: bic. r3, r3, \#8\\
+$"$bic. r3, r3, \#8$"$ schreibt das Ergebnis einer bitweisen AND-Operation mit den Operator r3 und den bitweise negierten Operator \#8 in den Register r3 (r3 = r3 \& ~(\#8)).\\
+2d4: str r3, [r2, \#0]\\
+$"$str r3, [r2, \#0]$"$ schreibt den Inhalt des Registers r3 in die Angegebene Adresse (Adr. im Reg. r2 + \#0 = 0x400253fc + 0x0 = 0x400253fc). Das hei\ss{}t der Wert aus Register r3 wird in die Adresse 0x400253fc geschrieben.\\
+2d6: bl 26c <delay>\\
+$"$bl 26c <delay>$"$ springt zur Adresse 0x26c (Funktion delay).\\
+2da: b.n 2ba <main +0x1e>\\
+$"$b.n 2ba <main +0x1e>$"$ springt zur Adresse 0x2ba (While true schleife in main).\\
+\newpage
 \section{Aufgabe 2}
 Führen Sie nun die oben dargestellten Schritte mit der Option \textit{-O2} aus. Generieren Sie ein weiteres Disassembly in einer Datei \textit{blink2.asm}.\\ \\
 Vergleichen Sie die beiden Grö\ss{}en der Programmcodes, die mit den unterschiedlichen Optimierungsparametern generiert wurden. Vergleichn Sie auch den Inhalt der Dateien \textit{blink0.asm} und \textit{blink2.asm}. Welche wesentliche Änderung hat der Compiler am auszufürenden Binärcode (siehe die Disassemblies \textit{.asm}) durchgeführt?\\ \\
