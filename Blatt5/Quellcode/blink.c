@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "inc/tm4c123gh6pm.h"
 
- uint32_t ui32Loop;
+volatile uint32_t ui32Loop;
 
 void delay() {
     for(ui32Loop = 0; ui32Loop < 200000; ui32Loop++);

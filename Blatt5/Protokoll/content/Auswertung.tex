@@ -6,7 +6,7 @@ Infomaterial finden Sie u.a. im Ilias:
 	\item Cortex-M4 Devices Generic User Guide, Kapitel 3 $"$The Cortex-M4 Instruction Set$"$
 \end{itemize}
 \section{Aufgabe 1}
-Sehen Sie sich an, wofür die Optionen \textit{-O0}, \textit{-O2} und \textit{-Os} des Compilers \textit{arm-none-eabi-gcc} verwendet werden, z.B. \url{https://gcc.gnu.org/onlinedocs/gcc-6.4.0/gcc/Optimize-Options.html}.\\ \\
+Sehen Sie sich an, wofür die Optionen \textit{-O0}, \textit{-O2} und \textit{-Os} des Compilers \textit{arm-none-eabi-gcc} verwendet werden, z.B. \url{https://gcc.gnu.org/onlinedocs/gcc-6.4.0/gcc/Optimize-Options.html}.
 \begin{itemize}
 	\item -O0: Verringert die Kompilierungszeit und macht das beim debuggen die erwarteten Ergebnisse produziert werden.
 	\item -O2: GCC führt nahezu alle unterstützen Optimierungen aus die nicht einen Speicher-Geschwindigkeit-Kompromiss eingehen. Diese Option erhöht die Kompilierungszeit und die Performance des generierten Code.
@@ -39,7 +39,8 @@ Laden Sie die vier Dateien \textit{blink.c}, \textit{startup\_gcc.c}, \textit{EK
 \begin{center}
 	Listing der Datei blink.c
 \end{center}
-Sie können das Programm mit den folgenden Schritten auch auf das Board überspielen:\\
+\newpage
+\noindent Sie können das Programm mit den folgenden Schritten auch auf das Board überspielen:\\
 \textit{DSLite load -c EK-TM4C123GXL.ccxml blink.elf}\\ \\
 Sie sollten nun die Grö\ss{}e des Programmcodes ermittelt und u.a. die Datei \textit{blink0.asm} generiert haben. In der Datei \textit{blink0.asm} finden Sie ein Disassembly des Programms \textit{blink.c}.\\ \\
 Die Grö\ss{}e des Programmcodes beträgt 1148 bytes.\\ \\
@@ -51,47 +52,46 @@ In der ersten Spalte steht die Adresse des Assemblerbefehls.\\
 In der zweiten Spalte steht der Assemblerbefehl in Hexadezimale Darstellung.\\
 In der dritten Spalte steht der Assemblerbefehl in $"$Menschen Lesbaren Darstellung$"$ z. B. add.\\
 In der vierten Spalte stehen die Operanden die zu dem Assemblerbefehl (Spalte 3) gehören.\\
-In der fünften Spalte steht ein Kommentar mit weiteren Informationen.\\
-2ae: ldr r3, [pc, \#52] ; (2e4 <main+0x48>)\\
+In der fünften Spalte steht ein Kommentar mit weiteren Informationen z. B. die Adresse des zu lesendes Wortes.\\ \\
+\textbf{2ae:} ldr r3, [pc, \#52] ; (2e4 <main+0x48>)\\
 Der pc-Register zeigt auf die Adresse des nächsten Befehls also 0x2b0.\\
-$"$ldr r3, [pc, \#52]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#52 = 0x2b0 + 0x34 = 0x2e4) in den Register r3. Das Wort 40025400 wird in den Register r3 geschrieben.\\
-2b0: movs r2, \#8\\
-$"$movs r2, \#8$"$ schreibt den Wert \#8 in den Register r2.\\
-2b2: str r2, [r3, \#0]\\
-$"$str r2, [r3, \#0]$"$ schreibt den Inhalt des Registers r2 in die Angegebene Adresse (Adr. im Reg. r3 + \#0 = 0x40025400 + 0x0 = 0x40025400). Das hei\ss{}t der Wert \#8 aus Register r2 wird in die Adresse 0x40025400 geschrieben.\\
-2b4: ldr r3, [pc, \#48] ; (2e8 <main+0x4c>)\\
-$"$ldr r3, [pc, \#48]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#48 = 0x2b8 + 0x30 = 0x2e8) in den Register r3. Das Wort 4002551c wird in den Register r3 geschrieben.\\
-2b6: movs r2, \#8\\
-$"$movs r2, \#8$"$ schreibt den Wert \#8 in den Register r2.\\
-2b8: str r2, [r3, \#0]\\
-$"$str r2, [r3, \#0]$"$ schreibt den Inhalt des Registers r2 in die Angegebene Adresse (Adr. im Reg. r3 + \#0 = 0x4002551c + 0x0 = 0x4002551c). Das hei\ss{}t der Wert \#8 aus Register r2 wird in die Adresse 0x4002551c geschrieben.\\
-2ba: ldr r2 [pc, \#48] ; (2ec <main+0x50>)\\
-$"$ldr r2 [pc, \#48]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#48 = 0x2bc + 0x30 = 0x2ec) in den Register r2. Das Wort 400253fc wird in den Register r2 geschrieben.\\
-2bc: ldr r3 [pc, \#44] ; (2ec <main+0x50>)\\
-$"$ldr r3 [pc, \#44]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#44 = 0x2c0 + 0x2c = 0x2ec) in den Register r3. Das Wort 400253fc wird in den Register r3 geschrieben.\\
-2be: ldr r3 [r3, \#0]\\
-$"$ldr r3 [r3, \#0]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. r3 + \#0 = 0x400253fc + 0x0 = 0x400253fc) in den Register r3.\\
-2c0: orr.w r3, r3, \#8\\
-$"$orr.w r3, r3, \#8$"$ schreibt das Ergebnis einer bitweisen ODER-Operation mit den Operatoren r3 und \#8 in Register r3 (r3 = r3 | \#8).\\
-2c4: str r3, [r2, \#0]\\
-$"$str r3, [r2, \#0]$"$ schreibt den Inhalt des Registers r3 in die Angegebene Adresse (Adr. im Reg. r2 + \#0 = 0x400253fc + 0x0 = 0x400253fc). Das hei\ss{}t der Wert aus Register r3 wird in die Adresse 0x400253fc geschrieben.\\
-2c6: bl 26c <delay>\\
-$"$bl 26c <delay>$"$ springt zur Adresse 0x26c (Funktion delay).\\
-2ca: ldr r2 [pc, \#32] ; (2ec <main+0x50>)\\
-$"$ldr r2 [pc, \#32]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#32 = 0x2cc + 0x20 = 0x2ec) in den Register r2. Das Wort 400253fc wird in den Register r2 geschrieben.\\
-2cc: ldr r3 [pc, \#28] ; (2ec <main+0x50>)\\
-$"$ldr r3 [pc, \#28]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#28 = 0x2d0 + 0x1c = 0x2ec) in den Register r3. Das Wort 400253fc wird in den Register r3 geschrieben.\\
-2ce: ldr r3 [r3, \#0]\\
-$"$ldr r3 [r3, \#0]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. r3 + \#0 = 0x400253fc + 0x0 = 0x400253fc) in den Register r3.\\
-2d0: bic. r3, r3, \#8\\
-$"$bic. r3, r3, \#8$"$ schreibt das Ergebnis einer bitweisen AND-Operation mit den Operator r3 und den bitweise negierten Operator \#8 in den Register r3 (r3 = r3 \& ~(\#8)).\\
-2d4: str r3, [r2, \#0]\\
-$"$str r3, [r2, \#0]$"$ schreibt den Inhalt des Registers r3 in die Angegebene Adresse (Adr. im Reg. r2 + \#0 = 0x400253fc + 0x0 = 0x400253fc). Das hei\ss{}t der Wert aus Register r3 wird in die Adresse 0x400253fc geschrieben.\\
-2d6: bl 26c <delay>\\
-$"$bl 26c <delay>$"$ springt zur Adresse 0x26c (Funktion delay).\\
-2da: b.n 2ba <main +0x1e>\\
+$"$ldr r3, [pc, \#52]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#52 = 0x2b0 + 0x34 = 0x2e4) in den Register r3. Das Wort 40025400 wird in den Register r3 geschrieben.\\ \\
+\textbf{2b0:} movs r2, \#8\\
+$"$movs r2, \#8$"$ schreibt den Wert \#8 in den Register r2.\\ \\
+\textbf{2b2:} str r2, [r3, \#0]\\
+$"$str r2, [r3, \#0]$"$ schreibt den Inhalt des Registers r2 in die Angegebene Adresse (Adr. im Reg. r3 + \#0 = 0x40025400 + 0x0 = 0x40025400). Das hei\ss{}t der Wert \#8 aus Register r2 wird in die Adresse 0x40025400 geschrieben.\\ \\
+\textbf{2b4:} ldr r3, [pc, \#48] ; (2e8 <main+0x4c>)\\
+$"$ldr r3, [pc, \#48]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#48 = 0x2b8 + 0x30 = 0x2e8) in den Register r3. Das Wort 4002551c wird in den Register r3 geschrieben.\\ \\
+\textbf{2b6:} movs r2, \#8\\
+$"$movs r2, \#8$"$ schreibt den Wert \#8 in den Register r2.\\ \\
+\textbf{2b8:} str r2, [r3, \#0]\\
+$"$str r2, [r3, \#0]$"$ schreibt den Inhalt des Registers r2 in die Angegebene Adresse (Adr. im Reg. r3 + \#0 = 0x4002551c + 0x0 = 0x4002551c). Das hei\ss{}t der Wert \#8 aus Register r2 wird in die Adresse 0x4002551c geschrieben.\\ \\
+\textbf{2ba:} ldr r2 [pc, \#48] ; (2ec <main+0x50>)\\
+$"$ldr r2 [pc, \#48]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#48 = 0x2bc + 0x30 = 0x2ec) in den Register r2. Das Wort 400253fc wird in den Register r2 geschrieben.\\ \\
+\textbf{2bc:} ldr r3 [pc, \#44] ; (2ec <main+0x50>)\\
+$"$ldr r3 [pc, \#44]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#44 = 0x2c0 + 0x2c = 0x2ec) in den Register r3. Das Wort 400253fc wird in den Register r3 geschrieben.\\ \\
+\textbf{2be:} ldr r3 [r3, \#0]\\
+$"$ldr r3 [r3, \#0]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. r3 + \#0 = 0x400253fc + 0x0 = 0x400253fc) in den Register r3.\\ \\
+\textbf{2c0:} orr.w r3, r3, \#8\\
+$"$orr.w r3, r3, \#8$"$ schreibt das Ergebnis einer bitweisen ODER-Operation mit den Operatoren r3 und \#8 in Register r3 (r3 = r3 | \#8).\\ \\
+\textbf{2c4:} str r3, [r2, \#0]\\
+$"$str r3, [r2, \#0]$"$ schreibt den Inhalt des Registers r3 in die Angegebene Adresse (Adr. im Reg. r2 + \#0 = 0x400253fc + 0x0 = 0x400253fc). Das hei\ss{}t der Wert aus Register r3 wird in die Adresse 0x400253fc geschrieben.\\ \\
+\textbf{2c6:} bl 26c <delay>\\
+$"$bl 26c <delay>$"$ springt zur Adresse 0x26c (Funktion delay).\\ \\
+\textbf{2ca:} ldr r2 [pc, \#32] ; (2ec <main+0x50>)\\
+$"$ldr r2 [pc, \#32]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#32 = 0x2cc + 0x20 = 0x2ec) in den Register r2. Das Wort 400253fc wird in den Register r2 geschrieben.\\ \\
+\textbf{2cc:} ldr r3 [pc, \#28] ; (2ec <main+0x50>)\\
+$"$ldr r3 [pc, \#28]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. pc + \#28 = 0x2d0 + 0x1c = 0x2ec) in den Register r3. Das Wort 400253fc wird in den Register r3 geschrieben.\\ \\
+\textbf{2ce:} ldr r3 [r3, \#0]\\
+$"$ldr r3 [r3, \#0]$"$ schreibt den Inhalt der angegebenen Adresse (Adr. im Reg. r3 + \#0 = 0x400253fc + 0x0 = 0x400253fc) in den Register r3.\\ \\
+\textbf{2d0:} bic. r3, r3, \#8\\
+$"$bic. r3, r3, \#8$"$ schreibt das Ergebnis einer bitweisen AND-Operation mit den Operator r3 und den bitweise negierten Operator \#8 in den Register r3 (r3 = r3 \& ~(\#8)).\\ \\
+\textbf{2d4:} str r3, [r2, \#0]\\
+$"$str r3, [r2, \#0]$"$ schreibt den Inhalt des Registers r3 in die Angegebene Adresse (Adr. im Reg. r2 + \#0 = 0x400253fc + 0x0 = 0x400253fc). Das hei\ss{}t der Wert aus Register r3 wird in die Adresse 0x400253fc geschrieben.\\ \\
+\textbf{2d6:} bl 26c <delay>\\
+$"$bl 26c <delay>$"$ springt zur Adresse 0x26c (Funktion delay).\\ \\
+\textbf{2da:} b.n 2ba <main +0x1e>\\
 $"$b.n 2ba <main +0x1e>$"$ springt zur Adresse 0x2ba (While true schleife in main).\\
-\newpage
 \section{Aufgabe 2}
 Führen Sie nun die oben dargestellten Schritte mit der Option \textit{-O2} aus. Generieren Sie ein weiteres Disassembly in einer Datei \textit{blink2.asm}.\\ \\
 Vergleichen Sie die beiden Grö\ss{}en der Programmcodes, die mit den unterschiedlichen Optimierungsparametern generiert wurden. Vergleichn Sie auch den Inhalt der Dateien \textit{blink0.asm} und \textit{blink2.asm}. Welche wesentliche Änderung hat der Compiler am auszufürenden Binärcode (siehe die Disassemblies \textit{.asm}) durchgeführt?\\ \\
@@ -101,31 +101,21 @@ Der Programmcode von blink2.asm ist 44 bytes kleiner.\\
 Die Funktion delay() ist in der main() Funktion integriert.\\
 Es werden die Register r0-r6 verwendet (in der Main Funktion).\\
 Die Wörter werden nur einmal in der Main geladen und nur noch mithilfe von Registern geladen und gespeichert.\\
+\newpage
 \section{Aufgabe 3}
-Ändern Sie nun das Programm, indem Sie das Keyword \textit{volatile} im Quellcode \textit{blink.c} löschen. Führen Sie die oben beschriebenen Schritte mit der Option \textit{-O2} nochmals durch und sehen Sie Sich das neue Disassembly an.\\ 
-
-Was und warum hat der Compiler nun etwas Anderes generiert? Wie wirkt sich dies auf die Programmausführung auf dem Board aus?\\ 
-
-Das Schlüsselwort volatile bedeutet das der Wert einer Variablen sich jederzeit ändern kann. Das hei\ss{}t das die Variable ständig überprüft werden muss.\\
-
-Der Compiler lässt durch das \"volatile\"-Keyword einige Optimierungen aus. 
-Dem Entsprechend ist der neue Code um 16 Zeilen kürzer (gemessen bis zu b.n-Zeile) und weißt die Operationen \"cmp\",\"adds\",\"bls\" und \"bhi\" nicht mehr auf. 
-Die Anzahl der genutzten Register ist gleich geblieben, lediglich die Namen haben sich geändert. \\
-
-Bei der Programmausführung auf dem Board werden allerdings erst die gravierenden Unterschiede durch die Optimierung klar. 
-Die Programmausführung \textbf{mit} dem Keyword sieht wie folgt aus:\\
-
+Ändern Sie nun das Programm, indem Sie das Keyword \textit{volatile} im Quellcode \textit{blink.c} löschen. Führen Sie die oben beschriebenen Schritte mit der Option \textit{-O2} nochmals durch und sehen Sie Sich das neue Disassembly an.\\ \\
+Was und warum hat der Compiler nun etwas Anderes generiert? Wie wirkt sich dies auf die Programmausführung auf dem Board aus?\\ \\
+Der Compiler lässt durch das $"$volatile$"$-Keyword einige Optimierungen aus. Dem Entsprechend ist der neue Code um 16 Zeilen kürzer (gemessen bis zu b.n-Zeile) und wei\ss{}t die Operationen $"$cmp$"$, $"$adds$"$, $"$bls$"$ und $"$bhi$"$ nicht mehr auf. Die Anzahl der genutzten Register ist gleich geblieben, lediglich die Namen haben sich geändert. Bei der Programmausführung auf dem Board werden allerdings erst die gravierenden Unterschiede durch die Optimierung klar.\\
+Die Programmausführung \textbf{mit} dem Keyword sieht wie folgt aus:
 \begin{enumerate}
-\item Die LED des Boards ist aus
-\item Nach einem Knopfdruck beginnt die LED zu blinken
-\item Solange der Knopf gedrückt wird, ist die LED aus
+	\item Die LED des Boards ist aus.
+	\item Nach einem Knopfdruck beginnt die LED zu blinken.
+	\item Solange der Knopf gedrückt wird, ist die LED aus.
 \end{enumerate}
-
-Ein Durchlauf \textbf{ohne} das Keyword sieht allerdings so aus:\\
+Ein Durchlauf \textbf{ohne} das Keyword sieht allerdings so aus:
 \begin{enumerate}
-\item Die LED des Boards ist an
-\item Solange der Knopf gedrückt wird, ist die LED aus
-\item Nach einem Knopfdruck leuchtet die LED wieder permanent
+\item Die LED des Boards ist an.
+\item Solange der Knopf gedrückt wird, ist die LED aus.
+\item Nach einem Knopfdruck leuchtet die LED wieder permanent.
 \end{enumerate}
-
-Es ist also deutlich, dass in diesem Fall das \"volatile\"-Keyword benötigt wird, damit das Programm funktioniert und nicht elementare Bestandteile wegoptimiert werden.
+Es ist also deutlich, dass in diesem Fall das $"$volatile$"$-Keyword benötigt wird, damit das Programm funktioniert und nicht elementare Bestandteile weg-optimiert werden.
