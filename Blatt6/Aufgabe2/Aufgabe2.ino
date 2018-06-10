@@ -25,7 +25,7 @@ void setup() {
     "add r7, r6"
     "strb r7, [r4, #1]"
     "bne.n back"
-    :: [fD] "r" (fibData[2], [lFi] "r" (lastFiboIndex -2))
+    :: [fD] "r" (fibData[2]), [lFi] "r" (lastFiboIndex -2)
     : "r4" , "r5" , "r6" , "r7" , "cc" , "memory"
   );
 }
