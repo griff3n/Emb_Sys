@@ -1,0 +1,36 @@
+\newpage
+\section{Vorbereitung}
+In der Vorlesung wurden ARM-Assembler und Inline-Assembler für den ARM-GCC\\
+besprochen. Lesen Sie hierzu für weitere Informationen die Webseite\\
+\url{http://www.ethernut.de/en/documents/arm-inline-asm.html} und\\
+\url{http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0553a/CIHJJEIH.html}\\
+(Cortex-M4 Devices Generic User Guide, Kapitel 3 $"$The Cortex-M4 Instruction Set$"$ im Ilias).
+\section{Aufgabe 1}
+Ergänzen Sie das Listing 6.1 mit Assembler-Befehlen in den angegebenen Bereich, so dass Ihr ergänzter Programmcode die Nummer \textit{number} verändert. Die Nummer muss bei jedem Durchlauf verdoppelt werden, bis sie den Wert 128 erreicht hat. Danach muss die Nummer wieder auf den Wert 1 gesetzt werden und die Verdoppelung vorne beginnen.\\
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+	breakatwhitespace=false,
+	breaklines=true,
+	commentstyle=\color{mygreen},
+	frame=single,
+	keepspaces=true,
+	keywordstyle=\color{blue},
+	language=C,
+	rulecolor=\color{black},
+	stringstyle=\color{mymauve},
+	tabsize=2
+}
+\lstinputlisting{../Aufgabe1/Aufgabe1.ino}
+\begin{center}
+	Listing 6.1: Rahmen für Aufgabe 1\\
+\end{center}
+\section{Aufgabe 2}
+Ergänzen Sie das Listing 6.2 mit Assembler-Befehlen in den angegebenen Bereich, so dass das Array fibData mit den ersten dreizehn Fibonacci-Zahlen gefüllt wird. Dabei ist die dritte bis dreizehnte Fibonacci-Zahl jeweils aus ihren beiden vorhergehenden zu berechnen. Hinweis: Eine mögliche Wissenslücke bezüglich Fibonacci-Zahlen könnte Wikpedia füllen (\url{http://de.wikipedia.org/wiki/Fibonacci-Folge}). Beachten Sie, dass nicht alle Register benutzt werden können und verwenden Sie z.B. die Register R4 bis R7.\\
+\lstinputlisting{../Aufgabe2/Aufgabe2.ino}
+\begin{center}
+	Listing 6.2: Rahmen für Aufgabe 2\\
+\end{center}
+Bestimmen Sie für den Assembler-Code beider Programme die Anzahl der Taktzyklen, die diese benötigen.\\ \\
+Überlegen Sie Sich weiterhin, wie Sie sicherstellen können, dass durch Ihren Programmcode veränderte Register nach der Durchführung ihre ursprüngliche Werte bekommen.\\
+
