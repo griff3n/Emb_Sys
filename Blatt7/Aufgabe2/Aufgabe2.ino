@@ -38,6 +38,10 @@ class Node {
 
   String findMorsecode(char letter, String code) {
     String morsecode;
+    Serial.print("Suche in Node ");
+    Serial.print(val);
+    Serial.print(" nach ");
+    Serial.println(letter);
     ende = false;
     if (letter == ' ') {
       return " ";
@@ -58,7 +62,8 @@ class Node {
         return morsecode;
       }
     }
-    return "";
+    Serial.println("Standardausgabe");
+    return "";   
   }
   private:
   char val;
@@ -129,11 +134,14 @@ class Uebersetzer {
     Node * m   = new Node('M' , 'm', g       , o );//LL
     Node * e   = new Node('E' , 'e', i       , a );//D
     Node * t   = new Node('T' , 't', n       , m );//L
-    Node * morsetabelle  = new Node(' ' , ' ', e       , t );
+    Node * morsetabelle  = new Node(' ' , ' ', e, t);
   }
 
-  void uebersetzen(String text) {
+  void uebersetzen(String text) {   
+      Serial.println("uebersetze: "+text);
     for(char zeichen : text) {
+      Serial.print("uebersetze Zeichen: ");
+      Serial.println(zeichen);
       ausgabeMorseZeichen(morsetabelle->findMorsecode(zeichen, ""));
     }
   }
@@ -166,9 +174,12 @@ class PBuzzer : public Uebersetzer {
   public:
   PBuzzer() {
     pinMode(PORT_NB, OUTPUT);
+    init();
   }
   
   void ausgabeMorseZeichen(String code) {
+    
+    Serial.println("Ausgabe: "+code);
     if(code == "") {
       return;
     }
@@ -188,16 +199,21 @@ class PBuzzer : public Uebersetzer {
     }
     digitalWrite(PORT_NB, LOW);
     delay(dit * 3);
+    Serial.println("Ausgabe beendet: "+code);
   }
 };
 
 template<const uint8_t PORT_NB>
 class TLed : public Uebersetzer {
+  public:
   TLed() {
     pinMode(PORT_NB, OUTPUT);
+    init();
   }
 
   void ausgabeMorseZeichen(String code) {
+    
+      Serial.println("Ausgabe: "+code);
     if(code == "") {
       return;
     }
@@ -217,6 +233,8 @@ class TLed : public Uebersetzer {
     }
     digitalWrite(PORT_NB, LOW);
     delay(dit * 3);
+    
+    Serial.println("Ausgabe beendet: "+code);
   }
 };
 
@@ -226,6 +244,7 @@ PBuzzer<PBuzzerPin> pBuzzer;
 TLed<LedPin> led;
 bool aktive = false;
 String inputString = "";
+String lastString="t";
 //bool stringComplete = false;
 
 void setup() {
@@ -234,18 +253,29 @@ void setup() {
 }
 
 void loop() {
+  if(inputString==lastString){
+    translate();
+  }
   if(buttonB.state() == HIGH) {
     aktive = !aktive;
   } 
   if(buttonD.state() == HIGH) {
-    if(aktive) {
-      pBuzzer.uebersetzen(inputString);
-    } else {
-      led.uebersetzen(inputString);
-    }
+    translate();
   }
   inputString = "";
+  //serialEvent();
 }
+
+void translate(){
+
+  if(aktive) {
+      Serial.println("Buzzer übersetzt");
+      pBuzzer.uebersetzen(lastString);
+    } else {
+      Serial.println("Led übersetzt");
+      led.uebersetzen(lastString);
+    }
+  }
 
 void serialEvent() {
   int i = 0;
@@ -254,5 +284,8 @@ void serialEvent() {
     inputString += inChar;
     i++;
   }
+  
+  Serial.println("Eingelesen: "+inputString);
+  lastString=inputString;
 }
 
