@@ -42,21 +42,25 @@ class Node {
     Serial.print(val);
     Serial.print(" nach ");
     Serial.println(letter);
+    Serial.println("Current code: "+code);
     ende = false;
     if (letter == ' ') {
       return " ";
     }
     if (letter == val || letter == val2) {
+    Serial.println("letter equals");
       ende = true;
       return code;
     }
     if (dot != nullptr) {
+    Serial.println("dot not null");
       morsecode = dot->findMorsecode(letter, code + "d");
       if (ende) {
         return morsecode;
       }
     }
     if (line != nullptr) {
+    Serial.println("line not null");
       morsecode = line->findMorsecode(letter, code + "l");
       if (ende) {
         return morsecode;
@@ -269,10 +273,10 @@ void loop() {
 void translate(){
 
   if(aktive) {
-      Serial.println("Buzzer übersetzt");
+      Serial.println("Buzzer Ã¼bersetzt");
       pBuzzer.uebersetzen(lastString);
     } else {
-      Serial.println("Led übersetzt");
+      Serial.println("Led Ã¼bersetzt");
       led.uebersetzen(lastString);
     }
   }
