@@ -56,10 +56,28 @@ Implementieren Sie ausgehend von Ihrer Modellierung deren Funktionalität. Ihre 
 \noindent Implementierung Statechart
 \lstinputlisting[firstline=24, lastline=24]{../Aufgabe1/Aufgabe1.ino}
 \lstinputlisting[firstline=81, lastline=143]{../Aufgabe1/Aufgabe1.ino}
+\newpage
 \section{Aufgabe 2}
 Fügen Sie dem Zustandsautomaten und dem Programm aus Aufgabe 1 die Eigenschaft hinzu, dass das Board (und die Ampeln) nach einer Zeit ($T_e$) ohne Knopfdruck in einen Energiesparmodus geht, aus welchem es bei Knopfdruck aufwacht. Der Energiesparmodus darf nur erreicht werden, wenn die Fahrzeugampel grün (und die Fu\ss{}gängerampel rot) ist. Dabei sollen auch alle LEDs ausgeschaltet werden.\\ \\
 Verwenden Sie für diese Aufgabe einen Timer-Interrupt. Schreiben Sie dazu eine Klasse \textit{Timer}, die intern den Timer-Interrupt benutzt. Die Klasse \textit{Timer} muss u.a. die Methoden \textit{setTimer}(Zeitspanne) und \textit{resetTimer}() bereitstellen. Der Ablauf einer mit \textit{setTimer}(Zeitspanne) eingestellten Zeitspanne muss bei der Ereignisverarbeitung benutzt werden. Implementieren Sie für die Klasse \textit{Timer} das Singleton-Pattern, so dass nur eine Instanz der Klasse \textit{Timer} existiert. Die Funktion ISR für den Timer-Interrupt kann au\ss{}erhalb der Klasse \textit{Timer} sein. Die Funktion ISR kann über das Singleton-Pattern auf die Timer-Klasse zugreifen.\\
 Statt die Interrupt Vector Tabelle zu ändern, wie es im Workbook gemacht wird, verwenden Sie die Funktion $"$TimerIntRegister$"$ von Tiva (siehe Driver Lib Doku).\\ \\
 Das Programm darf nicht die Funktion \textit{delay}() der Energia-Bibliothek verwenden. Sämtliche Zeitabläufe sind über die Klasse Timer durchzuführen.\\
 Für die Zeitspannen soll gelten: $T_e > T_w \geqq T_g > T_u$. Die Zeitspannen sollen auf halbe Sekunden genau einstellbar sein.\\ \\
-Tipp: Sollte sich das Board beim Entwickeln nicht mehr flashen lassen, so ist es wahrscheinlich noch im Energiesparmodus. Starten Sie das Board neu, drücken Sie den SW2-Button (das Board verlässt den Energiesparmodus) und flashen Sie das Board.
+Tipp: Sollte sich das Board beim Entwickeln nicht mehr flashen lassen, so ist es wahrscheinlich noch im Energiesparmodus. Starten Sie das Board neu, drücken Sie den SW2-Button (das Board verlässt den Energiesparmodus) und flashen Sie das Board.\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/Statechart2}
+\end{figure}
+\begin{itemize}
+	\item PUSH2: Button SW2 wurde gedrückt.
+	\item Tw: Zeitspanne Tw ist abgelaufen.
+	\item Tu: Zeitspanne Tu ist abgelaufen.
+	\item Tg: Zeitspanne Tg ist abgelaufen.
+	\item Te: Zeitspanne Te ist abgelaufen.
+\end{itemize}
+\noindent Klasse Timer:
+\lstinputlisting[firstline=88, lastline=135]{../Aufgabe2/Aufgabe2.ino}
+\noindent Zustände:
+\lstinputlisting[firstline=20, lastline=32]{../Aufgabe2/Aufgabe2.ino}
+\noindent Implementierung Funktion ISR:
+\lstinputlisting[firstline=137, lastline=247]{../Aufgabe2/Aufgabe2.ino}

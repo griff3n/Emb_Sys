@@ -122,8 +122,8 @@ class Timer {
     SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0); 
     IntMasterEnable();
     TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
-    TimerLoadSet(TIMER0_BASE, TIMER_A, 40000000);
-
+    unsigned long p = 40000000;          //  40MHz
+    TimerLoadSet(TIMER0_BASE, TIMER_A, p); 
     IntEnable(INT_TIMER0A);
     TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
     TimerIntRegister(TIMER0_BASE, TIMER_A, ISR);
@@ -142,8 +142,6 @@ void ISR(void) {
     switch(zustand) {
     case DEF:
       Serial.println("DEF");
-      fahrzeugampel.gelb.aus();
-      fahrzeugampel.rot.aus();
       fahrzeugampel.gruen.an();
       fussgaengerampel.rot.an();
       if(t.getCount() == Te - 1) {
@@ -156,7 +154,6 @@ void ISR(void) {
         t.resetTimer();
         t.setTimer(1);
       }
-  
       break;
     case START_SEQUENZ1:
       Serial.println("START_SEQUENZ1");
@@ -217,17 +214,20 @@ void ISR(void) {
       break;
     case SEQUENZ_ENDE:
       Serial.println("SEQUENZ_ENDE");
+      fahrzeugampel.gelb.aus();
+      fahrzeugampel.rot.aus();
+      fahrzeugampel.gruen.an();
       zustand = DEF;
       t.resetTimer();
       t.subCount();
       break;
     case ENERGIESPARMODUS:
+      Serial.println("ENERGIESPARMODUS");
       if(buttonaktiv) {
         zustand = DEF;
         t.resetTimer();
         break;
-      }
-      Serial.println("ENERGIESPARMODUS");
+      }    
       fahrzeugampel.gruen.aus();
       fahrzeugampel.gelb.aus();
       fahrzeugampel.rot.aus();
