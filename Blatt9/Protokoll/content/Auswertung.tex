@@ -24,7 +24,25 @@ Wie lautet die Adresse das DS1621, mit dem dieser in der dargestellten Schaltung
 Die Methoden \textit{Wire.begin()}, \textit{Wire.requestFrom()} und \textit{Wire.beginTransmission()} haben die Adresse als Parameter.
 \subsection{Aufgabe 1b}
 Wie setzt sich das Format zur Übertragung von Temperaturwerten bei dem DS1621 zusammen? Welche Befehle und Parameter (mit der Wire-Bibliothek) müssen an den DS1621 gesendet werden, um dessen Pin 3 ($T_{OUT}$) so einstellen, dass dieser bei einer Temperatur grö\ss{}er 25\textdegree{} Celsius auf HIGH geht?\\ \\
+Die Temperatur wird mit 9-Bits codiert. Das hei\ss{}t es werden 2 Byte verwendet. Wenn das erste Bit (vom Ersten Byte) mit einer Eins gesetzt ist, ist die Temperatur negativ. Die nächsten 7 Bits codieren die Temperatur. Das erste Bit vom zweiten Byte codiert 0,5\textdegree{} Celsius. Die darauf folgenden Bits sind alle mit dem Wert 0 gesetzt.\\ \\
+00011001 00000000 = +25\textdegree{}C\\
+11100111 00000000 = -25\textdegree{}C\\
+00000000 10000000 = +0,5\textdegree{}C\\
+\begin{lstlisting}
+//init
+Wire.setModule(0);
+Wire.begin();
 
+Wire.beginTransmission(144); // 1001000
+Wire.write(172);             // Access Config ACh
+Wire.write(2);
+Wire.endTransmission();
+Wire.beginTransmission(144); // 1001000
+Wire.write(161);             // Access TH A1h
+Wire.write(25);              // 25 Grad Celsius
+Wire.write(0);
+Wire.endTransmission();
+\end{lstlisting}
 \subsection{Aufgabe 1c}
 Mit welchen Anweisungen bekommen Sie die Temperatur vom DS1621 geliefert?
 \begin{lstlisting}
@@ -34,7 +52,7 @@ Wire.setModule(0);
 Wire.begin();
 
 Wire.beginTransmission(145); // 1001000
-Wire.write(170);             // Read Temperature
+Wire.write(170);             // Read Temperature AAh
 Wire.endTransmission();
 
 Wire.requestFrom(145, 2);
