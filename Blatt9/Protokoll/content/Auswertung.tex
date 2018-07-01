@@ -5,7 +5,7 @@ Lesen Sie das Datenblatt zum integrierten Schaltkreis DS1621:\\
 \url{http://pdfserv.maximintegrated.com/en/ds/DS1621.pdf}. Der DS1621 ist ein digitales Thermometer mit einer TWI-Schnittstelle. Betrachten Sie im Folgenden das Schaltbild 5. Die Pins 5, 6 und 7 des DS1621 sind mit der Masse verbunden. Das Launchpad ist über die Pins PB\_2 (SCL) und PB\_3 (SDA) verbunden. Das Launchpad agiert als Master, der DS1621 als Slave.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{images/Schaltplan5}
+	\includegraphics[width=0.5\linewidth]{images/Schaltplan5}
 	\label{fig:Schaltplan5}
 \end{figure}
 \begin{center}
@@ -27,7 +27,7 @@ Wie setzt sich das Format zur Übertragung von Temperaturwerten bei dem DS1621 z
 Die Temperatur wird mit 9-Bits codiert. Das hei\ss{}t es werden 2 Byte verwendet. Wenn das erste Bit (vom Ersten Byte) mit einer Eins gesetzt ist, ist die Temperatur negativ. Die nächsten 7 Bits codieren die Temperatur. Das erste Bit vom zweiten Byte codiert 0,5\textdegree{} Celsius. Die darauf folgenden Bits sind alle mit dem Wert 0 gesetzt.\\ \\
 00011001 00000000 = +25\textdegree{}C\\
 11100111 00000000 = -25\textdegree{}C\\
-00000000 10000000 = +0,5\textdegree{}C\\
+00000000 10000000 = +0,5\textdegree{}C
 \begin{lstlisting}
 //init
 Wire.setModule(0);
@@ -42,6 +42,9 @@ Wire.write(161);             // Access TH A1h
 Wire.write(25);              // 25 Grad Celsius
 Wire.write(0);
 Wire.endTransmission();
+Wire.beginTransmission(144); // 1001000
+Wire.write(238);             // Start Convert T EEh
+Wire.endTransmission();
 \end{lstlisting}
 \subsection{Aufgabe 1c}
 Mit welchen Anweisungen bekommen Sie die Temperatur vom DS1621 geliefert?
@@ -51,12 +54,12 @@ float t = 0;
 Wire.setModule(0);
 Wire.begin();
 
-Wire.beginTransmission(145); // 1001000
+Wire.beginTransmission(144); // 1001000
 Wire.write(170);             // Read Temperature AAh
 Wire.endTransmission();
 
 Wire.requestFrom(145, 2);
-byte val = Wire.read();
+uint8_t val = Wire.read();
 if((val & 128) != 0) {
   t = val - 256;
 } else {
