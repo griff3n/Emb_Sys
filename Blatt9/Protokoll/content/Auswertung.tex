@@ -26,8 +26,29 @@ Die Methoden \textit{Wire.begin()}, \textit{Wire.requestFrom()} und \textit{Wire
 Wie setzt sich das Format zur Übertragung von Temperaturwerten bei dem DS1621 zusammen? Welche Befehle und Parameter (mit der Wire-Bibliothek) müssen an den DS1621 gesendet werden, um dessen Pin 3 ($T_{OUT}$) so einstellen, dass dieser bei einer Temperatur grö\ss{}er 25\textdegree{} Celsius auf HIGH geht?\\ \\
 
 \subsection{Aufgabe 1c}
-Mit welchen Anweisungen bekommen Sie die Temperatur vom DS1621 geliefert?\\ \\
+Mit welchen Anweisungen bekommen Sie die Temperatur vom DS1621 geliefert?
+\begin{lstlisting}
+//init
+float t = 0;
+Wire.setModule(0);
+Wire.begin();
 
+Wire.beginTransmission(145); // 1001000
+Wire.write(170);             // Read Temperature
+Wire.endTransmission();
+
+Wire.requestFrom(145, 2);
+byte val = Wire.read();
+if((val & 128) != 0) {
+  t = val - 256;
+} else {
+  t = val;
+}
+val = Wire.read();
+if(val != 0) {
+  t += 0.5;
+}
+\end{lstlisting}
 \section{Aufgabe 2}
 Programmieren Sie das Launchpad bzw. den DS1621 in der oben gezeigten Schaltung dahingehend, dass der DS1621 kontinuierlich die aktuelle Umgebungstemperatur misst und das Launchpad diese über den serial Monitor ausgibt.\\ \\
 Programmieren Sie die Schaltung so, dass beim Überschreiten einer einstellbaren Temperatur (z.B. 24\textdegree{}C) die LED an und beim Unterschreiten der Temperatur die LED ausgeht.\\ \\
