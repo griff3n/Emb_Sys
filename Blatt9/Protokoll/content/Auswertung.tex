@@ -13,8 +13,15 @@ Lesen Sie das Datenblatt zum integrierten Schaltkreis DS1621:\\
 \end{center}
 Beantworten Sie die Fragen vor dem Praktikum schriftlich:
 \subsection{Aufgabe 1a}
-Wie lautet die Adresse das DS1621, mit dem dieser in der dargestellten Schaltung angesteuert wird? Erklären Sie, wie sich die Adresse zusammensetzt und wie Sie die Adresse mit der Wire-Bibliothek benutzen.\\ \\
+Wie lautet die Adresse das DS1621, mit dem dieser in der dargestellten Schaltung angesteuert wird? Erklären Sie, wie sich die Adresse zusammensetzt und wie Sie die Adresse mit der Wire-Bibliothek benutzen.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth]{images/SlaveAdresse}
+\label{fig:SlaveAdresse}
+\end{figure}
 
+\noindent Die Adresse ist 7 Bit gor\ss{}. Das Achte bzw. das LSB ist das Lese/Schreib-Bit. Die ersten vier Bits sind mit dem Wert $"$1001$"$ gesetzt. Die nächsten drei Bits werden mit den Adress-Pins A2, A1, A0 (Pin 5 - 7) gesetzt. Da alle Adress-Pins mit der Masse verbunden sind lautet die Adresse $"$1001000$"$.\\
+Die Methoden \textit{Wire.begin()}, \textit{Wire.requestFrom()} und \textit{Wire.beginTransmission()} haben die Adresse als Parameter.
 \subsection{Aufgabe 1b}
 Wie setzt sich das Format zur Übertragung von Temperaturwerten bei dem DS1621 zusammen? Welche Befehle und Parameter (mit der Wire-Bibliothek) müssen an den DS1621 gesendet werden, um dessen Pin 3 ($T_{OUT}$) so einstellen, dass dieser bei einer Temperatur grö\ss{}er 25\textdegree{} Celsius auf HIGH geht?\\ \\
 
