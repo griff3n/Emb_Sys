@@ -1,17 +1,17 @@
 // Dieser Code ist vorbereitet das Praktikum am Mittwoch
 #include <Wire.h>
 
-const uint8_t ReadTemperature = 170;  //AAh
-const uint8_t AccessTH = 161;         //A1h
-const uint8_t AccessTL = 162;         //A2h
-const uint8_t AccessConfig = 172;     //ACh
-const uint8_t ReadCounter = 168;      //A8h
-const uint8_t ReadSlope = 169;        //A9h
-const uint8_t StartConvertT = 238;    //EEh
-const uint8_t StopConvertT = 34;      //22h
-const uint8_t SlaveAdress = 144;      //1001000
-const uint8_t Temperatur1_2 = 128;    //0,5 Grad Celsius
-const float Temperatur = 24.5;
+const byte ReadTemperature = 0xaa;  //AAh
+const byte AccessTH = 0xa1;         //A1h
+const byte AccessTL = 0xa2;         //A2h
+const byte AccessConfig = 0xac;     //ACh
+const byte ReadCounter = 0xa8;      //A8h
+const byte ReadSlope = 0xa9;        //A9h
+const byte StartConvertT = 0xee;    //EEh
+const byte StopConvertT = 0x22;      //22h
+const byte SlaveAdress = 144 >> 1;      //1001000
+const byte Temperatur1_2 = 128;    //0,5 Grad Celsius
+const float Temperatur = 28.5;
 
 void setTemperature(float t) {
   int t2 = t * 10;
@@ -66,8 +66,8 @@ void loop() {
   Wire.write(ReadTemperature);
   Wire.endTransmission();
 
-  Wire.requestFrom(SlaveAdress + 1, 2);
-  uint8_t val = Wire.read();
+  Wire.requestFrom(SlaveAdress, 2);
+  byte val = Wire.read();
   if((val & 128) != 0) {
     t = val - 256;
   } else {
